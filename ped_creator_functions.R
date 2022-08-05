@@ -385,16 +385,33 @@ create.test.fam <- function(proband.carriers,
 #' @param nc.cancer.dist.var. See `create.person()`.
 #' @param doc. See `create.person()`.
 #' @returns a list with elements:
-#'  - Data: a data frame of pedigrees with the same columns as created by
+#'  - `Data`: a data frame of pedigrees with the same columns as created by
 #'  `create.person()` however `PedigreeID` and `Twins` has been added, both allele
-#'  columns have been removed, and `Gene` has been replaced allele information. 
-#'  NAs have been replaced with blanks.
-#'  - Desc: a data frame of descriptors of how the pedigrees were created.
-#'  - DataFile: a character string of the path and file name of the pedigree data 
+#'  columns have been removed, and the contents of `Gene` have been reformatted to
+#'  contain the allele status information for both alleles. `PedigreeID` contains
+#'  a unique numeric pedigree identifier, `Twins` is currently populated with all
+#'  blanks, and `Gene` contains strings of the format X1/X2 where X1 is the 1st
+#'  allele and X2 is the 2nd allele. Alleles are 1 for non-pathogenic and 2 for
+#'  pathogenic. All NAs have been replaced with blanks.
+#'  - `Desc`: a one row data frame of descriptors of how the pedigrees were created 
+#'  with columns:
+#'   - `Version`: a string of the format "YYYY-MM-DD_X" where X is a version number
+#'   unique to the version date.
+#'   - `NumPeds`: number of pedigrees in the data.
+#'   - `PbAlleleFilter`: A string containing the allele statuses for all of the 
+#'   probands.
+#'   - `PropAlleleMasking`: a number between 0 and 1 indicating the proportion of
+#'   gene information masked.
+#'   - `Distribution`: the cancer distribution type used.
+#'   - `CarrierMean`: the cancer distribution mean for carriers.
+#'   - `NoncarrierMean`: the cancer distribution mean for non-carriers.
+#'   - `CarrierVar`: the cancer distribution variance for carriers.
+#'   - `NoncarrierVar`: the cancer distribution variance for non-carriers.
+#'  - `DataFile`: a character string of the path and file name of the pedigree data 
 #'  frame.
-#'  - DescFile: a character string of the path and file name of the descriptors 
+#'  - `DescFile`: a character string of the path and file name of the descriptors 
 #'  data frame.
-#'  - Version: a character string containing the date and a number that indicates
+#'  - `Version`: a character string containing the date and a number that indicates
 #'  the file version used in the file's name.
 create.test.fams <- function(num.fams, proband.carriers = NULL, 
                              path.allele.prevalence, 
@@ -481,8 +498,8 @@ create.test.fams <- function(num.fams, proband.carriers = NULL,
 #'  in the directory from today's date, or, if other files are dated today, then
 #'  one greater than the highest version number in the directory.
 #' @returns two file names: 
-#'  - Pedigree: pedigree file name as a .in file
-#'  - Desc: decriptors file name as a .csv file
+#'  - `Pedigree`: pedigree file name as a .in file
+#'  - `Desc`: decriptors file name as a .csv file
 make.file.names <- function(){
   
   other.files <- list.files("./simulated-data", 
@@ -528,13 +545,15 @@ make.file.names <- function(){
 #' @param desc.file a character string of the path and file name where the 
 #' descriptor file for the `df` is saved.
 #' @returns a list with elements:
-#'  - Data: a data frame of pedigrees
-#'  - Desc: a data frame of descriptors of how the pedigrees were created/modified.
-#'  - DataFile: a character string of the path and file name of the pedigree data 
+#'  - `Data`: a data frame of modified pedigrees. See `create.test.fams()` for a 
+#'  more complete description.
+#'  - `Desc`: a data frame of descriptors of how the pedigrees were created/modified.
+#'  See `create.test.fams()` for a more complete description.
+#'  - `DataFile`: a character string of the path and file name of the pedigree data 
 #'  frame.
-#'  - DescFile: a character string of the path and file name of the descriptors 
+#'  - `DescFile`: a character string of the path and file name of the descriptors 
 #'  data frame.
-#'  - Version: a character string containing the date and a number that indicates
+#'  - `Version`: a character string containing the date and a number that indicates
 #'  the file version used in the file's name.
 modify.pedigrees <- function(df, 
                              selected.alleles = c("1/1","1/2","2/1","2/2"), 
