@@ -41,3 +41,4 @@ vignettes/*.pdf
 # project directories
 simulated-data/
 toy_example/
+code-testing/

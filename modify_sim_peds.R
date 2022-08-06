@@ -13,8 +13,8 @@ test.peds <- read.table(file = "./simulated-data/test_fams_2022-08-05_1.in",
 # statuses and/or mask a proportion of gene information from each pedigree and/or
 # sample a subset of pedigrees.
 mod.data <- modify.pedigrees(df = test.peds,
-                             selected.alleles = c("1/2","2/1","2/2"), 
-                             mask.proportion = 0.5,
+                             selected.alleles = c("1/1","1/2","2/2"), 
+                             mask.proportion = 0.1,
                              sample.peds = NULL,
                              desc.file = desc.file.name)
 mod.peds <- mod.data$Data

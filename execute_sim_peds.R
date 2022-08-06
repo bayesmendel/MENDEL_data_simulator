@@ -5,12 +5,12 @@ DOC <- readRDS("./DOC.rds") # death penetrances for death from non-cancer causes
 
 # Generate test families 
 # includes all probands/pedigrees and 100% of gene information is present
-sim.data <- create.test.fams(num.fams = 10, 
+sim.data <- create.test.fams(num.fams = 6000, 
                              proband.carriers = NULL, 
-                             path.allele.prevalence = 0.1, 
+                             path.allele.prevalence = 0.2, 
                              distribution = "exponential",
-                             c.cancer.dist.mean = 40,
-                             nc.cancer.dist.mean = 80,
+                             c.cancer.dist.mean = 50,
+                             nc.cancer.dist.mean = 100,
                              c.cancer.dist.var = NULL,
                              nc.cancer.dist.var = NULL,
                              doc = DOC)
