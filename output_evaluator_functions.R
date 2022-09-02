@@ -110,9 +110,10 @@ test.MENDEL.output <- function(distribution, age = NA,
       estimated.mean <- -age / log(1 - estimated.risk)
     } else if(distribution == "normal"){
       # use points along the CDF curve to get the PDF curve, then estimate
-      cdf.points <- intercept + gene.coef + age.coef * 0:10000
+      cdf.points <- intercept + gene.coef + age.coef * -10000:10000
       pdf.points <- c(cdf.points[1], diff(cdf.points))
-      estimated.mean <- mean(pdf.points)
+      smp <- sample(-10000:10000, size = 10000, replace = T, prob = pdf.points)
+      estimated.mean <- mean(smp)
     } else if(distribution == "binomial"){
       # identity
       estimated.mean <- estimated.risk
@@ -132,7 +133,7 @@ test.MENDEL.output <- function(distribution, age = NA,
     if(distribution == "exponential"){
       estimated.var <- estimated.mean^2
     } else if(distribution == "normal"){
-      estimated.var <- var(pdf.points)
+      estimated.var <- var(smp)
     } else if(distribution == "binomial"){
       estimated.var <- estimated.mean * (1-estimated.mean)
     }

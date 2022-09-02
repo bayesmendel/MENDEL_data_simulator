@@ -1,8 +1,9 @@
 # Set-up
+#setwd("/Users/dizhen/Dropbox (Partners HealthCare)/MENDEL/MENDEL_data_simulator")
 library(tidyverse)
 source("./ped_creator_functions.R") # import simulation functions
 # change the file argument below as needed
-test.peds <- read.table(file = "./simulated-data/test_fams_2022-08-05_1.in",
+test.peds <- read.table(file = "./simulated-data/test_fams_2022-08-11_1.in",
                         sep = ",",
                         col.names = c("PedigreeID", "ID", "MotherID", "FatherID", 
                                       "Sex", "Twins", "Gene", "Proband",
@@ -14,7 +15,7 @@ test.peds <- read.table(file = "./simulated-data/test_fams_2022-08-05_1.in",
 # sample a subset of pedigrees.
 mod.data <- modify.pedigrees(df = test.peds,
                              selected.alleles = c("1/1","1/2","2/2"), 
-                             mask.proportion = 0.1,
+                             mask.proportion = 0.5,
                              sample.peds = NULL,
                              desc.file = desc.file.name)
 mod.peds <- mod.data$Data

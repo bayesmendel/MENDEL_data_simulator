@@ -189,11 +189,11 @@ create.person <- function(ped, motherid = NULL, fatherid = NULL,
     cancer.prob <- cancer.dist.mean
     cancer.age.prob <- rep(1 / age, age)
   } else if(distribution == "exponential"){
-    cancer.prob <- pexp(q = age, rate = 1/cancer.dist.mean)
     cancer.age.prob <- dexp(x = 1:age, rate = 1/cancer.dist.mean)
+    cancer.prob <- sum(cancer.age.prob)
   } else if(distribution == "normal"){
-    cancer.prob <- dnorm(x = age, mean = cancer.dist.mean, sd = sqrt(cancer.dist.var))
-    cancer.age.prob <- dnorm(x = age, mean = cancer.dist.mean, sd = sqrt(cancer.dist.var))
+    cancer.age.prob <- dnorm(x = 1:age, mean = cancer.dist.mean, sd = sqrt(cancer.dist.var))
+    cancer.prob <- sum(cancer.age.prob)
   }
   cancer <- sample(x = c(1,0), size = 1, prob = c(cancer.prob, 1-cancer.prob))
   cancer.age <- ifelse(cancer == 1,
@@ -592,6 +592,11 @@ modify.pedigrees <- function(df,
     sample.peds <- sample(ped.ids, size = sample.peds)
     df2 <- filter(df2, PedigreeID %in% sample.peds)
   }
+  
+  # replace NA (added by di)
+  df2 <- df2 %>%
+    mutate(across(.cols = c(MotherID, FatherID, Twins, AgeCancer), 
+                  ~ replace_na(as.character(.), "")))
   
   # modify descriptors file
   desc <- read.csv(desc.file)
